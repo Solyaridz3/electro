@@ -1,0 +1,170 @@
+{% load static %}
+<header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
+                <li><a href="tel:+38 097 475-26-52"><i class="fa fa-phone"></i> +38 097 475-26-52</a></li>
+                <li><a href="mailto: solyaridz3@gmail.com"><i class="fa fa-envelope-o"></i>solyaridz3@email.com</a></li>
+                <li><a href="https://www.google.com/maps/place/%D1%83%D0%BB.+%D0%9A%D1%80%D0%B5%D1%89%D0%B0%D1%82%D0%B8%D0%BA,+%D0%9A%D0%B8%D0%B5%D0%B2,+02000/@50.4476453,30.5219265,19.43z/data=!4m5!3m4!1s0x40d4ce56b2456d3b:0xd062ae171b57e947!8m2!3d50.4475854!4d30.5220257"><i class="fa fa-map-marker"></i>Kiev, Khreshchatyk</a></li>
+            </ul>
+            <ul class="header-links pull-right">
+                <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+                {% if request.user.is_authenticated  %}
+                <li><a href="{% url 'login' %}"><i class="fa fa-user-o"></i>{{request.user.first_name}}</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}"><i class="fa fa-user-o"></i>Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <!-- /TOP HEADER -->
+
+    <!-- MAIN HEADER -->
+    <div id="header">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a href="{% url 'home' %}" class="logo">
+                            <img src="{% static 'img/logo.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- /LOGO -->
+
+                <!-- SEARCH BAR -->
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form action="{% url 'store' %}">
+                            <select name="c_search" class="input-select">
+                                <option value="">All Categories</option>
+                                {% for category in categories %}
+                                <option value="{{category.slug}}">{{category}}</option>
+                                <!-- <option value="1">Category 02</option> -->
+                                {% endfor %}
+                            </select>
+                            <input name="search" class="input" placeholder="Search here">
+                            <button class="search-btn">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /SEARCH BAR -->
+
+                <!-- ACCOUNT -->
+                <div class="col-md-3 clearfix">
+                    <div class="header-ctn">
+                        <!-- Wishlist -->
+                        <div>
+                            <a href="{% url 'wishlist' %}">
+                                <i class="fa fa-heart-o"></i>
+                                <span>Your Wishlist</span>
+                                {% if wishlist.count > 0 %}
+                                <div class="qty">{{wishlist.count}}</div>
+                                {% endif %}
+                            </a>
+                        </div>
+                        <!-- /Wishlist -->
+
+                        <!-- Cart -->
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Your Cart</span>
+                                <div class="qty">3</div>
+                            </a>
+                            <div class="cart-dropdown">
+                                <div class="cart-list">
+                                    {% for item in cart_items %}
+                                    {% for i in item.product.all %}
+                                    <div class="product-widget">
+                                        <div class="product-img">
+                                            <img src="{{i.imageURL}}" alt="">
+                                        </div>
+                                        <div class="product-body">
+                                            <h3 class="product-name"><a href="#">{{i.product_name}}</a></h3>
+                                            <h4 class="product-price"><span class="qty">1x</span>${{i.price}}</h4>
+                                        </div>
+                                        <a href="{% url 'remove_from_cart' i.product_slug %}"><button class="delete"><i class="fa fa-close"></i></button></a>
+                                    </div>
+                                    {% endfor %}
+                                    {% endfor %}
+                                    <!-- <div class="product-widget">
+                                        <div class="product-img">
+                                            <img src="./img/product02.png" alt="">
+                                        </div>
+                                        <div class="product-body">
+                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                            <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                                        </div>
+                                        <button class="delete"><i class="fa fa-close"></i></button>
+                                    </div>
+
+                                    <div class="product-widget">
+                                        <div class="product-img">
+                                            <img src="./img/product02.png" alt="">
+                                        </div>
+                                        <div class="product-body">
+                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                                            <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                                        </div>
+                                        <button class="delete"><i class="fa fa-close"></i></button>
+                                    </div> -->
+                                </div>
+                                <div class="cart-summary">
+                                    <small>3 Item(s) selected</small>
+                                    <h5>SUBTOTAL: ${{total_price}}</h5>
+                                </div>
+                                <div class="cart-btns">
+                                    <a href="{% url 'cart-page' %}">View Cart</a>
+                                    <a href="{% url 'checkout' %}">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Cart -->
+
+                        <!-- Menu Toogle -->
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+                            </a>
+                        </div>
+                        <!-- /Menu Toogle -->
+                    </div>
+                </div>
+                <!-- /ACCOUNT -->
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
+</header>
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <ul class="main-nav nav navbar-nav">
+                <li class="active"><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'store' %}">Hot Deals</a></li>
+                <li><a href="{% url 'categories' %}">Categories</a></li>
+                {% for category in categories|slice:":5" %}
+                <li><a href="{% url 'store' %}?c_search={{category.slug}}&?search=">{{category.name}}</a></li>
+                {% endfor %}
+            </ul>
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->

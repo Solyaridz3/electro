@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+
+
+
+{% block content %}
+
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="breadcrumb-header">Regular Page</h3>
+				<ul class="breadcrumb-tree">
+					<li><a href="#">Home</a></li>
+					<li class="active">Blank</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<div class="container">
+{% for product in category %}
+<div class="col-md-4 col-xs-6">
+	<div class="shop">
+		<div class="shop-img">
+			<img src="{{product.product_image.url}}/" alt="">
+		</div>
+		<div class="shop-body">
+			<h3>{{product.product_name}}<br></h3>
+			<a href="{% url 'product_detail' product.category.slug product.product_slug %}" class="cta-btn">Buy now <i class="fa fa-arrow-circle-right"></i></a>
+		</div>
+	</div>
+</div>
+{% endfor %}
+</div>
+<!-- SECTION -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /SECTION -->
+
+
+{% endblock %}

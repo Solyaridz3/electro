@@ -1,0 +1,80 @@
+{% extends 'main.html' %}
+
+{% load url_replace %}
+
+{% block content %}
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header">Regular Page</h3>
+						<ul class="breadcrumb-tree">
+							<li><a href="#">Home</a></li>
+							<li class="active">Blank</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+				<div style="width: 50%; float:left">
+				<select onChange="window.location.href=this.value" name="brand" class="input">
+						{% if not choosen %}
+						<option value="" disabled selected>Select product</option>
+						{% endif %}
+						{% for product in all_products %}
+						<option {% if product.product_slug == choosen.product_slug %} selected{% endif %} value="?{% url_replace request 'choosen' product.product_slug %}">{{product.product_name}}</option>
+						{% endfor %}
+                </select>
+				</div>
+				<div style="width: 50%; float:right">
+				<select onChange="window.location.href=this.value" name="brand" class="input">
+						{% if not opposite %}
+						<option value="" disabled selected>Select product</option>
+						{% endif %}
+						{% for product in all_products %}
+						<option {% if product.product_slug == opposite.product_slug %} selected{% endif %} value="?{% url_replace request 'opposite' product.product_slug %}">{{product.product_name}}</option>
+						{% endfor %}
+                </select>
+				</div>
+				<div style="width: 50%; float:left">
+					{% if choosen %}
+					<h4>{{choosen.product_name}}</h4>
+					<img src="{{choosen.imageURL}}" class="compareImg">
+					{% for feature in features %}
+					<p><b>{{feature}}</b>: {{feature.product_feature_value}}</p>
+					{% endfor %}
+					{% endif %}
+				</div>
+
+				<div style="width: 50%; float:right">
+					{% if opposite %}
+					<h4>{{opposite.product_name}}</h4>
+					<img src="{{opposite.imageURL}}" class="compareImg">
+					{% for feature in opposite_features %}
+					<p><b>{{feature}}</b>: {{feature.product_feature_value}}</p>
+					{% endfor %}
+					{% endif %}
+					
+				</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'main.html' %} 
+
+{% block content %}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="breadcrumb-header">Checkout</h3>
+        <ul class="breadcrumb-tree">
+          <li><a href="#">Home</a></li>
+          <li class="active">Checkout</li>
+        </ul>
+      </div>
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- SECTION -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <div class="col-md-7">
+        <!-- Billing Details -->
+        <div class="billing-details">
+          <div class="section-title">
+            <h3 class="title">Create new product</h3>
+          </div>
+
+          <form
+            id="checkoutform"
+            action=""
+            method="post"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            <div class="caption">
+              <div class="form-group">
+                <input
+                  class="input"
+                  type="text"
+                  name="product-name"
+                  placeholder="Product name"
+                />
+              </div>
+              <div class="form-group">
+                <!-- <input required class="input" type="text" name="brand" placeholder="Brand" list="brands-list"> -->
+                <!-- <datalist id="brands-list"> -->
+                <select name="brand" class="input">
+                  <option value="" disabled selected>Select brand</option>
+                  {% for brand in brands %}
+                  <option value="{{brand.name}}">{{brand.name}}</option>
+                  {% endfor %}
+                </select>
+                <!-- </datalist> -->
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                class="input"
+                type="number"
+                name="price"
+                placeholder="Price"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                class="input"
+                type="file"
+                name="images"
+                multiple
+                placeholder="Images"
+              />
+            </div>
+            <div class="form-group">
+              <textarea
+                name="desc"
+                class="input"
+                placeholder="Description"
+              ></textarea>
+              <!-- <input class="input" type="text" name="desc" placeholder="Description"> -->
+            </div>
+            <div class="form-group">
+              <!-- <input class="input" type="text" name="category" placeholder="Category" list="categories-list"> -->
+              <!-- <datalist id="categories-list"> -->
+              <select name="category" class="input">
+                <option value="" disabled selected>Select category</option>
+                {% for category in categories %}
+                <option value="{{category.name}}">{{category.name}}</option>
+                {% endfor %}
+              </select>
+              <!-- </datalist> -->
+            </div>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+        <!-- /Billing Details -->
+
+        <!-- /row -->
+      </div>
+      <!-- /container -->
+    </div>
+    <!-- /SECTION -->
+
+   
+  </div>
+</div>
+{% endblock %}

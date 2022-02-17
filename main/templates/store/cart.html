@@ -1,0 +1,114 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% load url_replace %}
+{% block content %}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="breadcrumb-header">Your Cart Page</h3>
+				<ul class="breadcrumb-tree">
+					<li><a href="#">Home</a></li>
+					<li class="active">Your Cart Page</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+
+
+
+<!-- SECTION -->
+<div class="section">
+	<div class="container">
+	
+		<!-- product -->
+		
+		{% for item in cart_items %}
+		{% if item.product.all %}
+		
+		<h3>  Total price is ${{total_price}}</h3>
+		<a class="primary-btn cta-btn" href="{% url 'checkout' %}">Checkout <i class="fa fa-arrow-circle-right"></i></a><br>
+		{% for i in item.product.all %}
+		<div class="col-md-4 col-xs-6">
+			<div class="product">
+				<a href="{% url 'product_detail' i.category.slug i.product_slug %}">
+				<div class="product-img">
+					<img src="{{i.imageURL}}" alt="">
+					<div class="product-label">
+						{% if i.old_price %}
+						<span class="sale">-{% discount_percent i.old_price i.price %}%</span>
+						{% endif %}
+						<span class="new">NEW</span>
+					</div>
+				</div>
+				</a>
+				<div class="product-body">
+					<p class="product-category">{{i.category}} Category</p>
+					<h3 class="product-name"><a href="{% url 'product_detail' i.category.slug i.product_slug %}">{{i.product_name}}</a></h3>
+					<h4 class="product-price">${{i.price}} 
+					{% if i.old_price %}
+					<del class="product-old-price">${{i.old_price}}</del>
+					{% endif %}
+					</h4>
+					<div class="product-rating">
+						{% with rate=i.rate|floatformat:"0" %}
+						{% with ''|center:rate as range %}
+						{% for _ in range %}
+						<i class="fa fa-star"></i>
+						{% endfor %}
+						{% endwith %}
+						{% endwith %}
+						{% if i.rate < 5 %}
+						{% with empty=i.empty|floatformat:"0" %}
+						{% with ''|center:empty as range %}
+						{% for _ in range %}
+						<i class="fa fa-star-o empty"></i>
+						{% endfor %}
+						{% endwith %}
+						{% endwith %}
+						{% endif %}
+					</div>
+					<div class="product-btns">
+						
+						{% if i.product_slug in wishlist_slugs %}
+						<button onclick="window.location.href='{% url 'manage_wishlist' i.product_slug %}'" class="add-to-wishlist">
+						<i class="fa fa-heart" style="color:#ef233c"></i><span class="tooltipp">remove from wishlist</span></button>
+						{% else %}
+							<button onclick="window.location.href='{% url 'manage_wishlist' i.product_slug %}'" class="add-to-wishlist">
+							<i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+						{% endif %}
+						<button onclick="window.location.href='{% url 'compare' %}?choosen={{i.product_slug}}'" class="add-to-compare"><i class="fa fa-exchange"></i><span
+								class="tooltipp">add to compare</span></button>
+
+					</div>
+				</div>
+				<div class="add-to-cart">
+					<a href="{% url 'remove_from_cart' i.product_slug %}"><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> remove from cart</button></a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		{% else %}
+		<h1>There is nothing there at the moment :(</h1>
+		<h3>You should try this <a class="primary-btn cta-btn" href="{% url 'store' %}">Shop now</a></h3>
+		{% endif %}
+		{% endfor %}
+		
+	</div>
+	
+	</div>
+
+
+<!-- /SECTION -->
+
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% load url_replace %}
+{% block content %}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="breadcrumb-header">Wishlist Page</h3>
+				<ul class="breadcrumb-tree">
+					<li><a href="#">Home</a></li>
+					<li class="active">Wishlist</li>
+				</ul>
+			</div>
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /BREADCRUMB -->
+
+
+
+
+<!-- SECTION -->
+<div class="section">
+	<div class="container">
+	
+		<!-- product -->
+		{% if wishlist %}
+		{% for product in wishlist %}
+		<div class="col-md-4 col-xs-6">
+			<div class="product">
+				<a href="{% url 'product_detail' product.wish.category product.wish.product_slug %}">
+				<div class="product-img">
+					<img src="{{product.wish.imageURL}}" alt="">
+					<div class="product-label">
+						{% if product.wish.old_price %}
+						<span class="sale">-{% discount_percent product.wish.old_price product.wish.price %}%</span>
+						{% endif %}
+						<span class="new">NEW</span>
+					</div>
+				</div>
+				</a>
+				<div class="product-body">
+					<p class="product-category">{{product.wish.category}}Category</p>
+					<h3 class="product-name"><a href="{% url 'product_detail' product.wish.category product.wish.product_slug %}">{{product.wish.product_name}}</a></h3>
+					<h4 class="product-price">${{product.wish.price}} 
+					{% if product.old_price %}
+					<del class="product-old-price">${{product.old_price}}</del>
+					{% endif %}
+					</h4>
+					<div class="product-rating">
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+						<i class="fa fa-star"></i>
+					</div>
+					<div class="product-btns">
+						<button onclick="window.location.href='{% url 'manage_wishlist' product.wish.product_slug %}'" class="add-to-wishlist"><i class="fa fa-heart" style="color:#ef233c"></i><span
+								class="tooltipp">remove from wishlist</span></button>
+						<button onclick="window.location.href='{% url 'compare' %}?choosen={{product.wish.product_slug}}'" class="add-to-compare"><i class="fa fa-exchange"></i><span
+								class="tooltipp">add to compare</span></button>
+
+					</div>
+				</div>
+				<div class="add-to-cart">
+					<a href="{% url 'manage-cart' product.wish.product_slug %}"><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button></a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		{% else %}
+		<h1>There is nothing there at the moment :(</h1>
+		<h3>You should try this <a class="primary-btn cta-btn" href="{% url 'store' %}">Shop now</a></h3>
+		{% endif %}
+	</div>
+	
+	</div>
+
+
+<!-- /SECTION -->
+
+{% endblock %}
