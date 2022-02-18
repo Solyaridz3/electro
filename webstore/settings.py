@@ -35,7 +35,7 @@ SECRET_KEY='django-insecure-*8_$5s8y-z@f%7(u_e73sr(pk%9e6bk9dr-hm0g^m@lyycohsz'
 # DEBUG = False
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ['192.168.1.840', '127.0.0.1']
+ALLOWED_HOSTS = ['warm-earth-33674.herokuapp.com', '192.168.1.840', '127.0.0.1']
 
 
 # Application definition
