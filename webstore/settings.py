@@ -27,15 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env()
 
-# SECRET_KEY = os.environ['SECRET_KEY']
-
-SECRET_KEY='django-insecure-*8_$5s8y-z@f%7(u_e73sr(pk%9e6bk9dr-hm0g^m@lyycohsz'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
+
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ['warm-earth-33674.herokuapp.com', '192.168.1.840', '127.0.0.1']
+ALLOWED_HOSTS = ['warm-earth-33674.herokuapp.com','192.168.1.840', '127.0.0.1']
 
 
 # Application definition
@@ -95,6 +93,8 @@ DATABASES = {
     }
 }
 
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -166,7 +166,6 @@ EMAIL_USE_TLS = True
 
 CSRF_COOKIE_SECURE = True
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
