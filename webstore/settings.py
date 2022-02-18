@@ -16,7 +16,6 @@ import environ
 import dj_database_url
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,8 +32,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECRET_KEY='django-insecure-*8_$5s8y-z@f%7(u_e73sr(pk%9e6bk9dr-hm0g^m@lyycohsz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+# DEBUG = False
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 ALLOWED_HOSTS = ['192.168.1.840', '127.0.0.1']
 
@@ -136,7 +135,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # The URL to use when referring to static files (where they will be served from)
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 MEDIA_URL = '/images/'
 
