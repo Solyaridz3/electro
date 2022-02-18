@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env()
 
-SECRET_KEY = os.environ['SECRET_KEY']
+# SECRET_KEY = os.environ['SECRET_KEY']
 
-# SECRET_KEY='django-insecure-*8_$5s8y-z@f%7(u_e73sr(pk%9e6bk9dr-hm0g^m@lyycohsz'
+SECRET_KEY='django-insecure-*8_$5s8y-z@f%7(u_e73sr(pk%9e6bk9dr-hm0g^m@lyycohsz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
