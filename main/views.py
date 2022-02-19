@@ -1,7 +1,3 @@
-from asyncio.windows_events import NULL
-from audioop import avg
-from cgi import print_directory
-import re
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import (Brands, Cart, ProductImage, Product_feature,
@@ -177,7 +173,7 @@ def storePage(request):
                 0) if request.GET.get('min') != None else 1
     max = round(float(request.GET.get('max')), 0) if request.GET.get(
         'max') != None else 999999
-    sort = request.GET.get('sort') if request.GET.get('sort') != None else NULL
+    sort = request.GET.get('sort') if request.GET.get('sort') != None else None
 
     if max == 9999:
         max = 999999
@@ -533,23 +529,23 @@ def send_newsletter(request):
 
 
 def compare(request):
-    product_slug = request.GET.get('choosen') if request.GET.get('choosen') != None else NULL
+    product_slug = request.GET.get('choosen') if request.GET.get('choosen') != None else None
     all_products = Products.objects.all()
-    if product_slug != NULL:
+    if product_slug != None:
         choosen = Products.objects.get(product_slug=product_slug)
         category_filter = all_products.filter(category=choosen.category)
         features = Product_feature.objects.filter(product=choosen)
-        opposite_slug = request.GET.get('opposite') if request.GET.get('opposite') != None else NULL
-        if opposite_slug != NULL:
+        opposite_slug = request.GET.get('opposite') if request.GET.get('opposite') != None else None
+        if opposite_slug != None:
             opposite = all_products.get(product_slug=opposite_slug)
             opposite_features = Product_feature.objects.filter(product=opposite)
         else:
-            opposite, opposite_features = NULL, NULL
+            opposite, opposite_features = None, None
     else:
         category_filter = []
         features = []
-        choosen = NULL
-        opposite, opposite_features = NULL, []
+        choosen = None
+        opposite, opposite_features = None, []
     categories = Categories.objects.all()
     context = {'category_filter':category_filter, 'features': features, 'all_products': all_products, 'title': "Compare",
                 'opposite_features': opposite_features, 'opposite': opposite, 'choosen': choosen, 'categories': categories}
