@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from .forms import CheckoutForm
+from .forms import CheckoutForm, MyUserCreationForm
 from cloudipsp import Api, Checkout
 from django.urls import reverse
 from django.core.paginator import Paginator
@@ -336,6 +336,24 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
+def registerPage(request):
+    form = MyUserCreationForm()
+
+    if request.method == 'POST':
+        form = MyUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'An error occured during registration.')
+
+    context = {'form': form}
+    return render(request, 'store/login_register.html', context)
+    
+
 
 @login_required(login_url='login')
 def manage_wishlist(request, wished_item):
@@ -550,3 +568,4 @@ def compare(request):
     context = {'category_filter':category_filter, 'features': features, 'all_products': all_products, 'title': "Compare",
                 'opposite_features': opposite_features, 'opposite': opposite, 'choosen': choosen, 'categories': categories}
     return render(request, 'store/compare.html', context)
+

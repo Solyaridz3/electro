@@ -12,6 +12,7 @@ urlpatterns = [
     path('wishlist/', views.wishlistPage, name='wishlist'),
     path('add_to_wishlist/<slug:wished_item>/', views.manage_wishlist, name='manage_wishlist'),
     path('login/', views.loginPage, name='login'),
+    path('register/', views.registerPage, name='register'),
     path('logout/', views.logout_user, name='logout'),
     path('manage_cart/<slug:cart_slug>/', views.manage_cart, name='manage-cart'),
     path('cart/', views.cart_page, name='cart-page'),
