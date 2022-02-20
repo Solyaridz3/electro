@@ -10,7 +10,7 @@ class Categories(models.Model):
     name = models.CharField(
         max_length=255, verbose_name='Category', unique=True)
     slug = models.SlugField(max_length=200, verbose_name='Slug', unique=True)
-    image = models.ImageField(default='shop02.png')
+    image = models.ImageField(default='shop02_g7d53q')
     def __str__(self):
         return self.name
 
@@ -30,7 +30,7 @@ class Categories(models.Model):
 class Brands(models.Model):
     name = models.CharField(max_length=255, verbose_name='Brand', unique=True)
     slug = models.SlugField(max_length=200, verbose_name='Slug', unique=True)
-    image = models.ImageField(default='shop02.png')
+    image = models.ImageField(default='shop02_g7d53q')
 
     @property
     def imageURL(self):
@@ -53,7 +53,7 @@ class Products(models.Model):
         max_length=255, verbose_name='Product name')
     product_slug = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     product_image = models.ImageField(
-        default='image-placeholder.png', verbose_name='Image')
+        default='image-placeholder_kszdxc', verbose_name='Image')
     creaton_date = models.DateTimeField(auto_now_add=True)
     brand = models.ForeignKey(
         Brands, verbose_name='Brand', on_delete=models.PROTECT)
