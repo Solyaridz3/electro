@@ -73,6 +73,14 @@
             <div class="form-group">
               <input
                 class="input"
+                type="number"
+                name="old-price"
+                placeholder="Old Price(optionally)"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                class="input"
                 type="file"
                 name="images"
                 multiple
@@ -98,6 +106,16 @@
               </select>
               <!-- </datalist> -->
             </div>
+            {% for feature in features %}
+            <div class="form-group">
+              <input
+                class="input"
+                type="text"
+                name="{{feature}}"
+                placeholder="{{feature}} (optionally)"
+              />
+            </div>
+            {% endfor %}
             <input type="submit" value="Submit" />
           </form>
         </div>

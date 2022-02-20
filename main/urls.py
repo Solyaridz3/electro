@@ -22,4 +22,5 @@ urlpatterns = [
     path('newsletter_signup/', views.newsletter_signup, name='newsletter_signup'),
     path('send_newsletter/', views.send_newsletter, name='send_newsletter'),
     path('compare/', views.compare, name='compare'),
+    path('brands/', views.brands_page, name='brands')
 ]

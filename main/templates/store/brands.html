@@ -12,10 +12,10 @@
 		<!-- row -->
 		<div class="row">
 			<div class="col-md-12">
-				<h3 class="breadcrumb-header">Categories Page</h3>
+				<h3 class="breadcrumb-header">Brands Page</h3>
 				<ul class="breadcrumb-tree">
 					<li><a href="#">Home</a></li>
-					<li class="active">Categories</li>
+					<li class="active">Brands</li>
 				</ul>
 			</div>
 		</div>
@@ -28,15 +28,15 @@
 	<!-- row -->
 	<div class="row">
 		<!-- shop -->
-		{% for category in categories %}
+		{% for brand in brands %}
 		<div class="col-md-4 col-xs-6">
 			<div class="shop">
 				<div class="shop-img">
-					<img style="width: 360px; height:240px; object-fit: cover;" src="{{category.imageURL}}" alt="">
+					<img style="width: 360px; height:240px; object-fit: cover;" src="{{brand.imageURL}}" alt="">
 				</div>
 				<div class="shop-body">
-					<h3>{{category.name}}<br>Collection</h3>
-					<a href="{% url 'store' %}?c_search={{category.slug}}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+					<h3>{{brand.name}}<br>Collection</h3>
+					<a href="{% url 'store' %}?brand={{brand.slug}}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
 				</div>
 			</div>
 		</div>

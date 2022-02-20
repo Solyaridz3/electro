@@ -1,6 +1,6 @@
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import (Brands, Cart, ProductImage, Product_feature,
+from .models import (Brands, Cart, ProductImage, Product_feature, Feature,
                      Products, Categories, User, Wishlist, Custumer, Reviews, Newsletter)
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
@@ -436,6 +436,7 @@ def cart_page(request):
 
 def create_product(request):
     if request.user.is_superuser:
+        features = Feature.objects.all()
         if request.method == 'POST':
             data = request.POST
             images = request.FILES.getlist('images')
@@ -445,10 +446,20 @@ def create_product(request):
                 product_name=data['product-name'],
                 brand=brand,
                 price=data['price'],
+                old_price = data['old-price'],
                 description=data['desc'],
                 category=category,
                 product_image=images[0],
             )
+            for i in features:
+                name = str(i)
+                feature_value = data[name] if data[name] != None else None
+                if feature_value:
+                    Product_feature.objects.create(
+                        product = product,
+                        feature = i,
+                        product_feature_value = feature_value,
+                    )
             if len(images) > 0:
                 for i in range(1, len(images)):
                     image = ProductImage.objects.create(
@@ -457,7 +468,7 @@ def create_product(request):
                     )
         categories = Categories.objects.all()
         brands = Brands.objects.all()
-        context = {'categories': categories, 'brands': brands}
+        context = {'categories': categories, 'brands': brands, 'features': features}
         return render(request, 'store/create_product.html', context)
     else:
         return HttpResponse("You are not allowed here")
@@ -569,3 +580,9 @@ def compare(request):
                 'opposite_features': opposite_features, 'opposite': opposite, 'choosen': choosen, 'categories': categories}
     return render(request, 'store/compare.html', context)
 
+
+def brands_page(request):
+    brands = Brands.objects.all()
+    categories = Categories.objects.all()
+    context = {'brands': brands, 'categories': categories}
+    return render(request, 'store/brands.html', context)
