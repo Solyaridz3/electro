@@ -14,7 +14,7 @@ class MyUserCreationForm(UserCreationForm):
     password2 = forms.CharField(
         label="Confirm password",
         widget=forms.PasswordInput(
-            attrs={'class': 'input', 'type': 'password', 'align': 'center', 'placeholder': 'Repeat your password', 'autocomplete': 'off'}),
+            attrs={'class': 'input', 'type': 'password', 'align': 'center', 'placeholder': 'Repeat your password', 'autocomplete': 'new-password'}),
     )
 
     class Meta:
