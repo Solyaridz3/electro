@@ -65,6 +65,7 @@
 						Login
 					</button>
 				</form>
+				<p>Haven signed up yet? <a style="color: #D10024;" href="{% url 'register' %}">Sign up</a></p>
 			</div>
 		</div>
 		{% else %}
@@ -104,6 +105,7 @@
 						Sign up
 					</button>
 				</form>
+				<p>Already signed up? <a style="color: #D10024;" href="{% url 'login' %}">Sign in</a></p>
 			</div>
 		</div>
 		{% endif %}
