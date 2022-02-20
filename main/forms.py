@@ -8,33 +8,37 @@ from django import forms
 class MyUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         label="Password",
-        widget=forms.PasswordInput(attrs={'class':'input', 'type':'password', 'align':'center', 'placeholder':'Your password'}),
-        )
-    password2 = forms.CharField(
-            label="Confirm password",
-            widget=forms.PasswordInput(attrs={'class':'input', 'type':'password', 'align':'center', 'placeholder':'Repeat your password'}),
+        widget=forms.PasswordInput(
+            attrs={'class': 'input', 'type': 'password', 'align': 'center', 'placeholder': 'Your password', 'autocomplete': 'off'}),
     )
+    password2 = forms.CharField(
+        label="Confirm password",
+        widget=forms.PasswordInput(
+            attrs={'class': 'input', 'type': 'password', 'align': 'center', 'placeholder': 'Repeat your password', 'autocomplete': 'off'}),
+    )
+
     class Meta:
-        
+
         model = User
         fields = ['first_name', 'username', 'email']
         widgets = {
             'first_name': TextInput(attrs={
                 'class': "input",
-                'placeholder': 'Your full name'
+                'placeholder': 'Your full name', 
+                'autocomplete': 'off',
             }),
             'username': TextInput(attrs={
                 'class': "input",
-                'placeholder': 'Your username'
+                'placeholder': 'Your username',
+                'autocomplete': 'off',
             }),
             'email': EmailInput(attrs={
                 'class': "input",
                 'placeholder': 'Email',
-                'type': 'email'
+                'type': 'email',
+                'autocomplete': 'off',
             })
         }
-
-
 
 
 class UserForm(ModelForm):
@@ -46,7 +50,8 @@ class UserForm(ModelForm):
 class CheckoutForm(ModelForm):
     class Meta:
         model = Orders
-        fields = ['owner', 'email', 'phone','address', 'country', 'city', 'zip_code',]
+        fields = ['owner', 'email', 'phone',
+                  'address', 'country', 'city', 'zip_code', ]
 
         widgets = {
             'owner': TextInput(attrs={
@@ -80,5 +85,3 @@ class CheckoutForm(ModelForm):
                 'type': 'email'
             }),
         }
-
-
