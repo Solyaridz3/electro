@@ -446,10 +446,10 @@ def create_product(request):
                 product_name=data['product-name'],
                 brand=brand,
                 price=data['price'],
-                old_price = data['old-price'],
+                old_price = data['old-price'] if data['old-price'] != '' else None,
                 description=data['desc'],
                 category=category,
-                product_image=images[0],
+                product_image=images[0] if len(images)>0 else 'image-placeholder_kszdxc',
             )
             for i in features:
                 name = str(i)
