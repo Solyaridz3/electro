@@ -25,4 +25,3 @@ urlpatterns = [
     path('brands/', views.brands_page, name='brands'),
 ]
 
-handler404 = 'main.views.page_not_found'
