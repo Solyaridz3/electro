@@ -584,5 +584,19 @@ def compare(request):
 def brands_page(request):
     brands = Brands.objects.all()
     categories = Categories.objects.all()
-    context = {'brands': brands, 'categories': categories}
+    try:
+        user = request.user
+        custumer, created = Custumer.objects.get_or_create(user=user)
+        cart_items = Cart.objects.filter(owner=custumer)
+    except:
+        try:
+            device = request.COOKIES['device']
+            custumer, created = Custumer.objects.get_or_create(device=device)
+            cart_items = Cart.objects.filter(owner=custumer)
+        except:
+            cart_items = []
+    context = {'brands': brands, 'categories': categories, 'cart_items': cart_items}
     return render(request, 'store/brands.html', context)
+
+def page_not_found(request, exception):
+    return render(request, 'store/404.html')
