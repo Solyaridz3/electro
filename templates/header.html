@@ -75,9 +75,11 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                {% if cart_items.count > 0 %}
-                                <div class="qty">{{cart_items.count}}</div>
+                                {% for cart in cart_items %}
+                                {% if cart.product.all.count > 0 %}
+                                <div class="qty">{{cart.product.all.count}}</div>
                                 {% endif %}
+                                {% endfor %}
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
@@ -118,7 +120,11 @@
                                     </div> -->
                                 </div>
                                 <div class="cart-summary">
-                                    <small>3 Item(s) selected</small>
+                                    {% for cart in cart_items %}
+                                    {% if cart.product.all.count > 0 %}
+                                    <small>{{cart.product.all.count}} Item(s) selected</small>
+                                    {% endif %}
+                                    {% endfor %}
                                     <h5>SUBTOTAL: ${{total_price}}</h5>
                                 </div>
                                 <div class="cart-btns">

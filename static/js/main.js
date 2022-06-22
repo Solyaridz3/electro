@@ -185,7 +185,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 	// конечная дата, например 1 июля 2021
-	const deadline = new Date(2022, 02, 07);
+	const deadline = new Date(2022, 04, 09);
 	// id таймера
 	let timerId = null;
 	// склонение числительных

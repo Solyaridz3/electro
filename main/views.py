@@ -1,4 +1,4 @@
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import (Brands, Cart, ProductImage, Product_feature, Feature,
                      Products, Categories, User, Wishlist, Custumer, Reviews, Newsletter)
@@ -16,11 +16,12 @@ from django.conf import settings
 from email.mime.image import MIMEImage
 from django.core.mail import EmailMultiAlternatives
 import os
-    
+from django.views.generic import ListView, DetailView
+from .utils import DataMixin
+from django.views.decorators.csrf import csrf_protect
 
 
 def homePage(request):
-
     catalog = Products.objects.all()
     categories = Categories.objects.all()
     wishlist = Wishlist.objects.all()
@@ -122,12 +123,11 @@ def productPage(request, category_slug, product_slug):
 
     features = Product_feature.objects.filter(product=product)
 
-
     paginator = Paginator(reviews, 3)
     page_number = request.GET.get('reviews')
     page_obj = paginator.get_page(page_number)
     context = {'product': product, 'title': product.product_name, 'real_avg': round(avg_score, 1), 'ratings': ratings, 'related': related,
-               'product_images': product_images, 'categories': categories, 'avg_score': round(avg_score), 'empty': empty, 'features':features,
+               'product_images': product_images, 'categories': categories, 'avg_score': round(avg_score), 'empty': empty, 'features': features,
                'cart_items': cart_items, 'total_price': total_price, 'page_obj': page_obj}
     return render(request, 'store/product.html', context)
 
@@ -207,7 +207,7 @@ def storePage(request):
                 wishlist_slugs.append(i)
     else:
         wishlist = ''
-        wishlist_slugs=[]
+        wishlist_slugs = []
     brands = Brands.objects.all()
     top_selling = all.order_by('-bought_count')
     categories = Categories.objects.all()
@@ -272,7 +272,8 @@ def checkoutPage(request):
     else:
         form = CheckoutForm()
     categories = Categories.objects.all()
-    context = {'form': form, 'total_price': total_price, 'categories': categories}
+    context = {'form': form, 'total_price': total_price,
+               'categories': categories}
     return render(request, 'store/checkout.html', context)
 
 
@@ -306,7 +307,7 @@ def wishlistPage(request):
                'categories': categories, 'cart_items': cart_items}
     return render(request, 'store/wishlist.html', context)
 
-
+@csrf_protect
 def loginPage(request):
     page = 'login'
     if request.user.is_authenticated:
@@ -336,6 +337,7 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
+@csrf_protect
 def registerPage(request):
     form = MyUserCreationForm()
 
@@ -352,7 +354,6 @@ def registerPage(request):
 
     context = {'form': form}
     return render(request, 'store/login_register.html', context)
-    
 
 
 @login_required(login_url='login')
@@ -426,7 +427,7 @@ def cart_page(request):
                 wishlist_slugs.append(i)
     else:
         wishlist = ''
-        wishlist_slugs=[]
+        wishlist_slugs = []
 
     categories = Categories.objects.all()
     context = {'cart_items': cart_items, 'wishlist': wishlist, 'wishlist_slugs': wishlist_slugs,
@@ -446,19 +447,20 @@ def create_product(request):
                 product_name=data['product-name'],
                 brand=brand,
                 price=data['price'],
-                old_price = data['old-price'] if data['old-price'] != '' else None,
+                old_price=data['old-price'] if data['old-price'] != '' else None,
                 description=data['desc'],
                 category=category,
-                product_image=images[0] if len(images)>0 else 'image-placeholder_kszdxc',
+                product_image=images[0] if len(
+                    images) > 0 else 'image-placeholder_kszdxc',
             )
             for i in features:
                 name = str(i)
                 feature_value = data[name] if data[name] != None else None
                 if feature_value:
                     Product_feature.objects.create(
-                        product = product,
-                        feature = i,
-                        product_feature_value = feature_value,
+                        product=product,
+                        feature=i,
+                        product_feature_value=feature_value,
                     )
             if len(images) > 0:
                 for i in range(1, len(images)):
@@ -468,7 +470,8 @@ def create_product(request):
                     )
         categories = Categories.objects.all()
         brands = Brands.objects.all()
-        context = {'categories': categories, 'brands': brands, 'features': features}
+        context = {'categories': categories,
+                   'brands': brands, 'features': features}
         return render(request, 'store/create_product.html', context)
     else:
         return HttpResponse("You are not allowed here")
@@ -537,37 +540,23 @@ def send_newsletter(request):
 
         msg.send()
         return redirect('store')
-        # msg = EmailMultiAlternatives(
-        #     theme,
-        #     text,
-        #     settings.DEFAULT_FROM_EMAIL,
-        #     emails,
-        #     # fail_silently=False,
-        # )
-        # msg.mixed_subtype = 'related'
-        # msg.attach_alternative(body_html, "text/html")
-        # img_dir = 'static/img'
-        # image = 'handy.png'
-        # file_path = os.path.join(img_dir, image)
-        # with open(file_path, 'r', encoding='utf-8',errors='ignore') as f:
-        #     img = MIMEImage(f.read())
-        #     img.add_header('Content-ID', '<{name}>'.format(name=image).decode('utf-8'))
-        #     img.add_header('Content-Disposition', 'inline', filename=image)
-        # msg.attach(img)
     return render(request, 'store/send_newsletter.html')
 
 
 def compare(request):
-    product_slug = request.GET.get('choosen') if request.GET.get('choosen') != None else None
+    product_slug = request.GET.get('choosen') if request.GET.get(
+        'choosen') != None else None
     all_products = Products.objects.all()
     if product_slug != None:
         choosen = Products.objects.get(product_slug=product_slug)
         category_filter = all_products.filter(category=choosen.category)
         features = Product_feature.objects.filter(product=choosen)
-        opposite_slug = request.GET.get('opposite') if request.GET.get('opposite') != None else None
+        opposite_slug = request.GET.get('opposite') if request.GET.get(
+            'opposite') != None else None
         if opposite_slug != None:
             opposite = all_products.get(product_slug=opposite_slug)
-            opposite_features = Product_feature.objects.filter(product=opposite)
+            opposite_features = Product_feature.objects.filter(
+                product=opposite)
         else:
             opposite, opposite_features = None, None
     else:
@@ -576,8 +565,8 @@ def compare(request):
         choosen = None
         opposite, opposite_features = None, []
     categories = Categories.objects.all()
-    context = {'category_filter':category_filter, 'features': features, 'all_products': all_products, 'title': "Compare",
-                'opposite_features': opposite_features, 'opposite': opposite, 'choosen': choosen, 'categories': categories}
+    context = {'category_filter': category_filter, 'features': features, 'all_products': all_products, 'title': "Compare",
+               'opposite_features': opposite_features, 'opposite': opposite, 'choosen': choosen, 'categories': categories}
     return render(request, 'store/compare.html', context)
 
 
@@ -595,8 +584,10 @@ def brands_page(request):
             cart_items = Cart.objects.filter(owner=custumer)
         except:
             cart_items = []
-    context = {'brands': brands, 'categories': categories, 'cart_items': cart_items}
+    context = {'brands': brands, 'categories': categories,
+               'cart_items': cart_items}
     return render(request, 'store/brands.html', context)
+
 
 def page_not_found(request, exception):
     return render(request, 'store/404.html')

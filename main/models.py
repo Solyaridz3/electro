@@ -197,7 +197,7 @@ class Cart(models.Model):
         verbose_name_plural = "Cart"
 
     def __str__(self):
-        return str(self.product)
+        return str(self.owner)
 
 class Orders(models.Model):
     done = models.BooleanField(default=False)
@@ -242,3 +242,5 @@ class Newsletter(models.Model):
     
     def __str__(self): 
         return str(self.email)
+    
+
