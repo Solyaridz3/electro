@@ -26,6 +26,6 @@ python manage.py runserver
 - For publishing on Heroku used PostgreSQL
 
 #### Uploading files
-- Used Cloudinary storage for uploading files
+- Used Cloudinary storage for uploading files on server
 
 
