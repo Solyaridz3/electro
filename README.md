@@ -2,8 +2,6 @@
 E-commerce Website written in Django.
 [You can check it here](https://electro-webstore.herokuapp.com/)
 
-## HTML and CSS styles have been downloaded from the internet and and were changed by me instead of creating templates from scratch 
-
 #### Setup
 
 1. install python-3.10.2
