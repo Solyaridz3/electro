@@ -1,4 +1,4 @@
-# electro
+# Electro
 E-commerce Website written in Django.
 [You can check it here](https://electro-webstore.herokuapp.com/)
 
@@ -7,7 +7,7 @@ E-commerce Website written in Django.
 1. install python-3.10.2
 2. setup env variables 
 
-#### Then run that in terminal
+#### Run that in terminal
 
 ```bash
 pip install -r /path/to/requirements.txt
