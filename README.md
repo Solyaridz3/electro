@@ -1,6 +1,6 @@
 # Electro
 E-commerce Website written in Django.
-[You can check it here](https://electro-webstore.herokuapp.com/)
+[You can check it here](https://electro-webstore.herokuapp.com/) May take a few seconds to load because the server has been inactive
 
 #### Setup
 
